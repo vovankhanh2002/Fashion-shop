@@ -1,0 +1,40 @@
+﻿@model BanDoWeb.Model.Models.Contact
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> TẠO MỚI LIÊN HỆ</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <form style="width:fit-content" class="row" method="post">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <div class="form-floating col-12 py-2">
+                     <label asp-for="Name">Tên</label>
+                     <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" />
+                     <span asp-validation-for="Name" class="text-danger"></span>
+                 </div>
+                 <div class="form-floating col-12 py-2">
+                     <label asp-for="Email">Email</label>
+                     <input asp-for="Email" class="form-control" autocomplete="Email" aria-required="true" />
+                     <span asp-validation-for="Email" class="text-danger"></span>
+                 </div>
+                 <div class="form-floating col-12 py-2">
+                     <label asp-for="Subject">Chủ đề</label>
+                     <input asp-for="Subject" class="form-control" autocomplete="Subject" aria-required="true" />
+                     <span asp-validation-for="Subject" class="text-danger"></span>
+                 </div><div class="form-floating col-12 py-2">
+                     <label asp-for="Message">Nội dung</label>
+                     <input asp-for="Message" class="form-control" autocomplete="Message" aria-required="true" />
+                     <span asp-validation-for="Message" class="text-danger"></span>
+                 </div>
+                 <button type="submit" class="w-100 btn btn-lg btn-primary">Tạo</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

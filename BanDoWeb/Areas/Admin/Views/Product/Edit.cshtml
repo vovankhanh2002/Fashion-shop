@@ -1,0 +1,99 @@
+﻿@model BanDoWeb.Model.Models.ProductVM
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> CẬP NHẬT SẢN PHẨM</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+           <form id="registerForm" class="row" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="@Model.Product.Id" hidden></input>
+            <div class="form-floating col-12 py-2">
+                <label asp-for="@Model.Product.Title">Tên sản phẩm</label>
+                <input asp-for="@Model.Product.Title" class="form-control" autocomplete="Title" aria-required="true" />
+                <span asp-validation-for="@Model.Product.Title" class="text-danger"></span>
+            </div>
+            <div class="form-floating  col-6 py-2">
+                <label asp-for="@Model.Product.Description">Mô tả sản phẩm</label>
+                <input asp-for="@Model.Product.Description" class="form-control" autocomplete="Description" aria-required="true" />
+                <span asp-validation-for="@Model.Product.Description" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.Price">Giá bán</label>
+                <input asp-for="@Model.Product.Price" class="form-control" autocomplete="Price" aria-required="true" />
+                <span asp-validation-for="@Model.Product.Price" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.Warehouse">Kho</label>
+                <input asp-for="@Model.Product.Warehouse" class="form-control" autocomplete="Warehouse" aria-required="true" />
+                <span asp-validation-for="@Model.Product.Warehouse" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.PriceTotal">Giá giảm</label>
+                <input asp-for="@Model.Product.PriceTotal" class="form-control" autocomplete="PriceTotal" aria-required="true" />
+                <span asp-validation-for="@Model.Product.PriceTotal" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.OriginalPrice">Giá nhập</label>
+                <input asp-for="@Model.Product.OriginalPrice" class="form-control" autocomplete="OriginalPrice" aria-required="true" />
+                <span asp-validation-for="@Model.Product.OriginalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.Star">Đánh giá</label>
+                <input asp-for="@Model.Product.Star" class="form-control" autocomplete="Star" aria-required="true" maxlength="1" max="5" min="1" />
+                <span asp-validation-for="@Model.Product.Star" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="@Model.Product.ImageUrl">Hình sản phẩm</label>
+                <input asp-for="@Model.Product.ImageUrl" type="file" class="form-control" autocomplete="ImageUrl" aria-required="true" />
+                <span asp-validation-for="@Model.Product.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <div class="form-floating col-6 py-4">
+                    <select asp-for="@Model.Product.CategoryId" asp-items="@Model.ProductListItems" class="form-select">
+                        <option disabled>-Category-</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <div class="form-floating col-6 py-4">
+                    <select asp-for="@Model.Product.Color" class="form-select">
+                        <option disabled>-Color-</option>
+                        <option value="Black">Black</option>
+                        <option value="White">White</option>
+                        <option value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Green">Green</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <div class="form-floating col-6 py-4">
+                    <select asp-for="@Model.Product.Size" class="form-select">
+                        <option disabled>-Size-</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px">
+                <div class="form-floating col-6 py-4">
+                    <input type="checkbox" name="Active" value="true"/>
+                    Active
+                </div>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cập nhật</button>
+        </form>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,39 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+}
+  <!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" asp-area="" asp-controller="home" asp-action="index">Trang chủ</a>
+                    <span class="breadcrumb-item active">Thiết lập tài khoản</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+<div style="margin-left: 300px">
+    <h2>Thay đổi cài đặt tài khoản của bạn</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

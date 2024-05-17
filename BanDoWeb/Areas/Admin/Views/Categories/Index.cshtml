@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> DANH SÁCH LOẠI SẢN PHẨM</b></h5>
+            </div>
+            <div class="col-md-1">
+                 <a asp-action="Create" asp-controller="Categories" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Create</a>
+
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <table id="Categories" class="display" width="100%"></table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Content/assets/js/loadData.js"></script>
+}

@@ -1,0 +1,46 @@
+﻿@model BanDoWeb.Model.Models.SlidedImage
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> TẠO MỚI DANH SÁCH HÌNH ẢNH</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <form method="post" enctype="multipart/form-data" asp-action="Create">
+                <input value="@Model.Id" name="id" hidden></input>
+                <input asp-for="Image" type="file" onchange="previewImages(event)" multiple />
+                <div id="imagePreview"></div>
+                
+                <input type="submit" value="Tải hình ảnh" />
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function previewImages(event) {
+        var fileList = event.target.files; 
+        var imagePreview = document.getElementById("imagePreview");
+
+        imagePreview.innerHTML = ""; 
+
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result; 
+                img.style.width = '500px'
+                img.style.marginTop = '20px'
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+        
+    </script>
+}

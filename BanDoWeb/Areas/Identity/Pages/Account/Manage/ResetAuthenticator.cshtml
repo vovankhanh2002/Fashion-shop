@@ -1,0 +1,24 @@
+﻿@page
+@model ResetAuthenticatorModel
+@{
+    ViewData["Title"] = "Reset authenticator key";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h3>@ViewData["Title"]</h3>
+<div class="alert alert-warning" role="alert">
+    <p>
+        <span class="glyphicon glyphicon-warning-sign"></span>
+        <strong>Nếu bạn đặt lại khóa xác thực, ứng dụng xác thực của bạn sẽ không hoạt động cho đến khi bạn định cấu hình lại nó.</strong>
+    </p>
+    <p>
+        Quá trình này vô hiệu hóa 2FA cho đến khi bạn xác minh ứng dụng xác thực của mình.
+         Nếu không hoàn tất cấu hình ứng dụng xác thực, bạn có thể mất quyền truy cập vào tài khoản của mình.
+    </p>
+</div>
+<div>
+    <form id="reset-authenticator-form" method="post">
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Đặt lại khóa xác thực</button>
+    </form>
+</div>

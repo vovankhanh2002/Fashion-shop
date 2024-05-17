@@ -1,0 +1,25 @@
+﻿@page
+@model ShowRecoveryCodesModel
+@{
+    ViewData["Title"] = "Recovery codes";
+    ViewData["ActivePage"] = "TwoFactorAuthentication";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h3>@ViewData["Title"]</h3>
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>Hãy đặt những mã này ở nơi an toàn.</strong>
+    </p>
+    <p>
+        Nếu bạn mất thiết bị và không có mã khôi phục, bạn sẽ mất quyền truy cập vào tài khoản của mình.
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @for (var row = 0; row < Model.RecoveryCodes.Length; row += 2)
+        {
+            <code class="recovery-code">@Model.RecoveryCodes[row]</code><text>&nbsp;</text><code class="recovery-code">@Model.RecoveryCodes[row + 1]</code><br />
+        }
+    </div>
+</div>

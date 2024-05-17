@@ -1,0 +1,116 @@
+﻿@model BanDoWeb.Model.Models.SlidedImage
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> TẠO MỚI DANH SÁCH HÌNH ẢNH</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <form method="post" enctype="multipart/form-data" asp-action="Create">
+                <input value="@ViewBag.idProductImage" name="id" hidden></input>
+                <input asp-for="Image" type="file" onchange="previewImages1(event)" multiple />
+                <div id="imagePreview1"></div>
+                <input asp-for="Image" type="file" onchange="previewImages2(event)" multiple />
+                <div id="imagePreview2"></div>
+                <input asp-for="Image" type="file" onchange="previewImages3(event)" multiple />
+                <div id="imagePreview3"></div>
+
+                <input asp-for="Image" type="file" onchange="previewImages4(event)" multiple />
+                <div id="imagePreview4"></div>
+
+                <input type="submit" value="Tải hình ảnh" />
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function previewImages1(event) {
+        var fileList = event.target.files; 
+        var imagePreview = document.getElementById("imagePreview1");
+
+        imagePreview.innerHTML = ""; 
+
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result; 
+                img.style.width = '500px'
+                img.style.marginTop = '20px'
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+        function previewImages2(event) {
+        var fileList = event.target.files; 
+        var imagePreview = document.getElementById("imagePreview2");
+
+        imagePreview.innerHTML = ""; 
+
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result; 
+                img.style.width = '500px'
+                img.style.marginTop = '20px'
+
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+        function previewImages3(event) {
+        var fileList = event.target.files; 
+        var imagePreview = document.getElementById("imagePreview3");
+
+        imagePreview.innerHTML = ""; 
+
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result; 
+                img.style.width = '500px'
+                img.style.marginTop = '20px'
+
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+        function previewImages4(event) {
+        var fileList = event.target.files; 
+        var imagePreview = document.getElementById("imagePreview4");
+
+        imagePreview.innerHTML = ""; 
+
+        for (var i = 0; i < fileList.length; i++) {
+            var file = fileList[i];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var img = document.createElement("img");
+                img.src = e.target.result; 
+                img.style.width = '500px'
+                img.style.marginTop = '20px'
+
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    </script>
+}
+

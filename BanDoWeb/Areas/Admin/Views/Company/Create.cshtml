@@ -1,0 +1,52 @@
+﻿@model BanDoWeb.Model.Models.Company
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b>TẠO MỚI CÔNG TY</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+    <form style="width:fit-content" class="row" method="post">
+     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="Name">Tên công ty</label>
+         <input asp-for="Name" class="form-control" autocomplete="Name" aria-required="true" placeholder="Name" />
+         <span asp-validation-for="Name" class="text-danger"></span>
+     </div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="StreetAddress">Địa chỉ</label>
+         <input asp-for="StreetAddress" class="form-control" autocomplete="StreetAddress" aria-required="true" placeholder="Street Address" />
+         <span asp-validation-for="StreetAddress" class="text-danger"></span>
+     </div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="City">Thành phố</label>
+         <input asp-for="City" class="form-control" autocomplete="TitleNavBar" aria-required="true" placeholder="City" />
+         <span asp-validation-for="City" class="text-danger"></span>
+     </div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="State">Trạng thái</label>
+         <input asp-for="State" class="form-control" autocomplete="TitleNavBar" aria-required="true" placeholder="State" />
+         <span asp-validation-for="State" class="text-danger"></span>
+     </div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="PostalCode">Mã bưu điện</label>
+         <input asp-for="PostalCode" class="form-control" autocomplete="TitleNavBar" aria-required="true" />
+         <span asp-validation-for="PostalCode" class="text-danger"></span>
+     </div>
+     <div class="form-floating col-12 py-2">
+         <label asp-for="PhoneNumber">Số điện thoại</label>
+         <input asp-for="PhoneNumber" class="form-control" autocomplete="TitleNavBar" aria-required="true" />
+         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+     </div>
+     <button type="submit" class="w-100 btn btn-lg btn-primary">Tạo</button>
+</form>
+        </div>
+    </div>
+</div>
+
+
+
+

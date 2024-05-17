@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-9">
+                <h5><b> DANH SÁCH CHI TIẾT ĐƠN HÀNG</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <table id="Oderdetails" class="display" width="100%"></table>
+        </div>
+    </div>
+   
+</div>
+@section Scripts {
+    <script src="~/Content/assets/js/loadData.js"></script>
+}

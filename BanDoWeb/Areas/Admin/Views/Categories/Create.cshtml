@@ -1,0 +1,31 @@
+﻿@model BanDoWeb.Model.Models.Categories
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b> TẠO MỚI LOẠI SẢN PHẨM</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+          <form class="row" method="post" asp-action="create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating col-12 py-2">
+                <label asp-for="NameCategori">Loại sản phẩm</label>
+                <input asp-for="NameCategori" class="form-control" autocomplete="NameCategori" aria-required="true" />
+                <span asp-validation-for="NameCategori" class="text-danger"></span>
+            </div>
+            <div class="form-floating col-6 py-2">
+                <label asp-for="ImageUrl">Hình ảnh</label>
+                <input type="file" asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Tạo</button>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+

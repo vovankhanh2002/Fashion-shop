@@ -1,0 +1,228 @@
+﻿@using System.Globalization
+@model BanDoWeb.Model.Models.OderheaderVM
+
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-10">
+                <h5><b>CHI TIẾT ĐƠN HÀNG</b></h5>
+            </div>
+            <div class="col-md-2">
+                <a asp-area="admin" class="btn btn-info" asp-controller="OderHeader" asp-action="Index"><i class="fa-solid fa-share"></i> Quay về danh sách</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã sản phẩm</th>
+                        <th>Hình</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Màu</th>
+                        <th>Thành giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.oderDetails)
+                    {
+                        <tr>
+                            <th scope="row">@item.ProductId</th>
+                            <td><img style="width:400px" src="~/Content/assets/img/Product/@item.Product.ImageUrl"></img></td>
+                            <td>@item.Tittle</td>
+                            <td>@item.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</td>
+                            <td>@item.Count</td>
+                            <td>@item.Color</td>
+                            <td>@((item.Count * item.Price).ToString("C", CultureInfo.CreateSpecificCulture("vi-VN")))</td>
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+            <div class="row my-4">
+              <div class="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
+                  @{
+                        <p class="lead fw-bold mb-0">Tổng tiền đơn hàng: @Model.oderHeader.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                  }
+              </div>
+            </div>
+        </div>
+    </div>
+        <div class="card-header" >
+        <div class="row">
+            <div class="col-md-7">
+                @if(Model.oderHeader.PaymentStatus != "Rejected")
+                {
+                    <h5><b style="color:green">TRẠNG THÁI ĐƠN HÀNG:</b> @if(@Model.oderHeader.OderStatus == "Pending"){
+                        <b style = "color:green">
+                            Chờ xác nhận đơn hàng
+                        </b>
+                    }else if (@Model.oderHeader.OderStatus == "Approved")
+                    {
+                        <b style="color:#FFD333">
+                            Đã lấy hàng
+                        </b>
+                    }else if (@Model.oderHeader.OderStatus == "Processing")
+                    {
+                        <b style="color:forestgreen">
+                            Đã gửi hàng
+                        </b>
+                    }else if (@Model.oderHeader.OderStatus == "Shipped")
+                    {
+                        <b style="color:blue">
+                            Đang vận chuyển
+                        </b>
+                    }else if (@Model.oderHeader.OderStatus == "Success")
+                    {
+                        <b style="color:greenyellow">
+                            Đã giao hàng
+                        </b>
+                    }
+                    else
+                    {
+                        <b style="color:red">
+                            Đơn hàng đã hủy
+                        </b>
+                    }
+
+                </h5>
+                }
+                
+            </div>
+            <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="horizontal-timeline">
+                                <ul class="list-inline items d-flex justify-content-between" id="showStatus">
+                                @if(Model.oderHeader.PaymentStatus != "Rejected")
+                                {
+                                    @if (Model.oderHeader.OderStatus != "Cancelled")
+                                {
+                                    <li class="list-inline-item items-list">
+                                    
+                                        <a asp-area="admin" asp-controller="OderHeader" asp-action="Cancelled" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Cancelled" style="background-color:red; border:none" >Hủy</a>
+                                    </li>
+                                    
+                                        @if(Model.oderHeader.OderStatus != "Success")
+                                        {
+                                            @if (Model.oderHeader.OderStatus != "Shipped")
+                                            {
+                                                @if (Model.oderHeader.OderStatus != "Processing")
+                                            {
+                                                @if (Model.oderHeader.OderStatus != "Approved")
+                                            {
+                                                @if (Model.oderHeader.OderStatus != "Pending")
+                                            {
+                                                <li class="list-inline-item items-list">
+                                                    <a asp-area="admin" asp-controller="OderHeader" asp-action="" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Pending" style="background-color:green; border:none">Xác nhận</a>
+                                                </li>
+                                            }
+                                                <li class="list-inline-item items-list">
+                                                    <a asp-area="admin" asp-controller="OderHeader" asp-action="Approved" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Approved" style="background-color:#FFD333 ;border:none">Đã lấy hàng</a>
+                                                </li>
+                                            }
+                                                <li class="list-inline-item items-list">
+                                                    <a asp-area="admin" asp-controller="OderHeader" asp-action="Processing" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Processing" style="background-color:forestgreen;border:none">Đã gửi hàng</a>
+                                                </li>
+                                            }
+                                                <li class="list-inline-item items-list">
+                                                    <a asp-area="admin" asp-controller="OderHeader" asp-action="Shipped" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Shipped" style="background-color:blue;border:none">Đang vận chuyển</a>
+                                                </li>
+                                            }
+                                                <li class="list-inline-item items-list">
+
+                                                    <a asp-area="admin" asp-controller="OderHeader" asp-action="Success" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Shipped" style="background-color:green;border:none">Đã giao</a>
+                                                </li>
+                                            }
+                                        }
+
+                                }
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                @if(Model.oderHeader.OderStatus != "Cancelled")
+                {
+                    <h5><b style="color:green">TRẠNG THÁI THANH TOÁN:</b>
+                    @if(@Model.oderHeader.PaymentStatus == "Pending"){
+                        <b style = "color:green">
+                            Chờ xác nhận thanh toán
+                        </b>
+                    }else if (@Model.oderHeader.PaymentStatus == "Approved")
+                    {
+                        <b style="color:#FFD333">
+                            Đã thanh toán
+                        </b>
+                    }else if (@Model.oderHeader.PaymentStatus == "PaymentStatusDelayPayment")
+                    {
+                        <b style="color:blue">
+                            Trễ thanh toán
+                        </b>
+                    }else
+                    {
+                        <b style="color:red">
+                            Đã hủy thanh toán đơn hàng
+                        </b>
+                    }
+                </h5>
+                }
+
+            </div>
+            <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="horizontal-timeline">
+                                <ul class="list-inline items d-flex justify-content-between" id="showStatus">
+
+                                @if(Model.oderHeader.OderStatus != "Cancelled")
+                                {
+                                    @if (Model.oderHeader.PaymentStatus != "Rejected")
+                                {
+                                    <li class="list-inline-item items-list">
+                                    
+                                        <a asp-area="admin" asp-controller="OderHeader" asp-action="Rejected" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Cancelled" style="background-color:red; border:none" >Hủy thanh toán</a>
+                                    </li>
+                                    
+                                    
+                                    @if (Model.oderHeader.PaymentStatus != "PaymentStatusDelayPayment")
+                                    {
+                                        @if (Model.oderHeader.PaymentStatus != "Approved")
+                                    {
+                                        @if (Model.oderHeader.PaymentStatus != "Pending")
+                                    {
+                                        <li class="list-inline-item items-list">
+                                            <a asp-area="admin" asp-controller="OderHeader" asp-action="Pending" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Approved" style="background-color:#FFD333 ;border:none">Xác nhận</a>
+                                        </li>
+                                    }
+                                        <li class="list-inline-item items-list">
+                                            <a asp-area="admin" asp-controller="OderHeader" asp-action="PaymentApproved" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Processing" style="background-color:forestgreen;border:none">Đã thanh toán</a>
+                                        </li>
+                                    }
+                                        <li class="list-inline-item items-list">
+                                            <a asp-area="admin" asp-controller="OderHeader" asp-action="PaymentStatusDelayPayment" asp-route-id="@Model.oderHeader.Id" class="py-1 px-2 rounded text-white" id="Shipped" style="background-color:blue;border:none">Trễ thanh toán</a>
+                                    </li>
+                                    }
+                                }
+                                }
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Content/assets/js/loadData.js"></script>
+}

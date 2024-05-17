@@ -1,0 +1,29 @@
+﻿@model BanDoWeb.Model.Models.Navbar
+<div class="card" style="margin:20px">
+    <div class="card-header" style="color:red">
+        <div class="row">
+            <div class="col-md-11">
+                <h5><b>CẬP NHẬT THANH ĐIỀU HƯỚNG</b></h5>
+            </div>
+        </div>
+    </div>
+     <div class="card-block table-border-style" style="margin:10px">
+        <div class="table-responsive">
+            <form style="width:fit-content" class="row" method="post">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <input value="@Model.Id" hidden></input>
+                 <div class="form-floating col-12 py-2">
+                     <label asp-for="TitleNavBar">Tên thanh điều hướng</label>
+                     <input asp-for="TitleNavBar" class="form-control" autocomplete="TitleNavBar" aria-required="true" />
+                     <span asp-validation-for="TitleNavBar" class="text-danger"></span>
+                 </div>
+                 <div class="form-floating col-12 py-2">
+                     <label asp-for="UrlNavBar">Url thanh điều hướng</label>
+                     <input asp-for="UrlNavBar" class="form-control" autocomplete="TitleNavBar" aria-required="true" />
+                     <span asp-validation-for="UrlNavBar" class="text-danger"></span>
+                 </div>
+                 <button type="submit" class="w-100 btn btn-lg btn-primary">Cập nhật</button>
+            </form>
+        </div>
+    </div>
+</div>
