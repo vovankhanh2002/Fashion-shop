@@ -1,0 +1,110 @@
+﻿@model BanDoWeb.Model.Models.ShoppingCartVM
+@using System.Globalization
+@{
+ var ten = 10;
+}
+    <!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" asp-controller="home" asp-action="index">Trang chủ</a>
+                    <span class="breadcrumb-item active">Giỏ hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+<div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0" id="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng giá</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle tbodyID">
+                        @foreach(var item in Model.LstshoppingCarts){
+                            
+                            <tr id="trow_@item.Id">
+                                <td class="align-middle font-weight-normal"><img src="/Content/assets/img/Product/@item.Product.ImageUrl" alt="" style="width: 50px;">@item.Product.Title</td>
+                                <td class="align-middle font-weight-normal" id="price_@item.Id" data-price="@item.Product.Price">
+                                   <p class="font-weight-normal" style="margin-top:15px">@item.Product.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="input-group quantity mx-auto" style="width: 115px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus" id="updateCartIn" data-id="@item.Id">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm border-0 text-center" id="CountCart" data-id="@item.Id" value="@item.Count" min="1" name="credit_days" pattern="[^\-]+" 
+                                            #credit_days="ngModel" class="form-control" 
+                                            [(ngModel)]="provider.credit_days"
+                                            onkeypress="return (event.charCode == 8 || event.charCode == 0 || 
+                                            event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 
+                                            57" onpaste="return false" readonly="true">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus "id="updateCartDes" data-id="@item.Id">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            @{
+                                var Total = item.Count * item.Product.Price;
+                            }
+                                <td class="align-middle font-weight-normal" id="Total_@item.Id" data-total="@Total">
+                                    @Total.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))
+                                    </td>
+                                <td ><input class="align-middle" hidden id="input_@item.Id" value="@Total"></td>
+
+                                <td class="align-middle"><button class="btn btn-sm btn-danger" id="btnDelete" data-id="@item.Id"><i class="fa fa-times"></i></button></td>
+                           </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <form class="mb-30" action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary">Apply Coupon</button>
+                        </div>
+                    </div>
+                </form>
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Tổng phụ</h6>
+                            @{
+                                <h6 id="Subtotal">@ViewBag.Sum.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h6>
+                        }
+                    </div>
+                    
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Tổng tiền</h5>
+                        @{
+                            <h5 id="Total">@ViewBag.SumTotal.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h5>
+                            }
+                    </div>
+                        <a href="~/cart/checkout" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Thanh toán</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts{
+    <script src="/Content/assets/js/Cart.js"></script>
+}

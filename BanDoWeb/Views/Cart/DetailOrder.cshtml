@@ -1,0 +1,223 @@
+﻿@using System.Globalization
+@model BanDoWeb.Model.Models.OderheaderVM
+@{
+
+}
+<!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <a class="breadcrumb-item text-dark" href="#">Đơn mua</a>
+                    <span class="breadcrumb-item active">Thông tin đơn hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <h1>Thông tinh đơn hàng</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="callout callout-info">
+                  <h5><i class="fas fa-info"></i> Ghi chú:</h5>
+                  @if(Model.oderHeader.OderStatus == "Pending"){
+                        <b style="color:green"> 
+                            Chờ xác nhận đơn hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Approved"){
+                        <b style="color:#FFD333"> 
+                            Đã lấy hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Processing"){
+                        <b style="color:forestgreen"> 
+                            Đã gửi hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Shipped"){
+                        <b style="color:blue"> 
+                           <i class="fa-solid fa-car-side"></i>  Đang vận chuyển
+                        </b><br>
+                    }else{
+                        <b style="color:red"> 
+                            Đơn hàng đã hủy
+                        </b><br>
+                    }
+             </div>
+
+
+            <!-- Main content -->
+            <div class="invoice p-3 mb-3">
+              <!-- title row -->
+              <div class="row">
+                <div class="col-12">
+                  <h4>
+                    <i class="fas fa-globe"></i> Shop.
+                    <small class="float-right">@Model.oderHeader.OderDate</small>
+                  </h4>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- info row -->
+              <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                  Từ
+                  <address>
+                    Địa chỉ: P.An Bình, Q.Ninh Kiều, Tp.Cần Thơ, Việt Nam<br>
+                    Số điện thoại: 0387577243<br>
+                    Email: khanhvo06062002@gmail.com
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  Đến
+                  <address>
+                    <strong>Họ tên: @Model.oderHeader.FirstName @Model.oderHeader.LastName</strong><br>
+                    Địa chỉ: @Model.oderHeader.StreetAddress @Model.oderHeader.City<br>
+                    Trạng thái: @Model.oderHeader.State<br>
+                    Số điện thoại: @Model.oderHeader.PhoneNumber<br>
+                    Email: @Model.oderHeader.Email
+                  </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  <b>Mã đơn hàng: #@Model.oderHeader.Id</b><br>
+                  <br>
+                  <b>Đơn hàng ID:</b>@Model.oderHeader.Id <br>
+                  <b>Trạng thái đơn hàng:</b>
+                    @if(Model.oderHeader.OderStatus == "Pending"){
+                        <b style="color:green"> 
+                            Chờ xác nhận đơn hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Approved"){
+                        <b style="color:#FFD333"> 
+                            Đã lấy hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Processing"){
+                        <b style="color:forestgreen"> 
+                            Đã gửi hàng
+                        </b><br>
+                    }else if(Model.oderHeader.OderStatus == "Shipped"){
+                        <b style="color:blue"> 
+                            Đang vận chuyển
+                        </b><br>
+                    }else{
+                        <b style="color:red"> 
+                            Đơn hàng đã hủy
+                        </b><br>
+                    }
+
+                  <b>Tài khoản:</b> @Model.oderHeader.ApplicationUserId
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>Số lượng</th>
+                      <th>Sản phẩm</th>
+                      <th>Tên</th>
+                      <th>Kích thước</th>
+                      <th>Màu</th>
+                      <th>Giá</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                         @foreach(var item in Model.oderDetails)
+                          {
+                            <tr>
+                              <td>@item.Count</td>
+                              <td>
+                                  <a asp-area="" asp-controller="detail" asp-action="Index" asp-route-id="@item.Id">
+                                    <img style="width: 100px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                  </a>
+                              </td>
+                              <td>
+                                  <a asp-area="" asp-controller="detail" asp-action="Index" asp-route-id="@item.Id">
+                                    @item.Tittle
+                                  </a>
+                              </td>
+                              <td>@item.Size</td>
+                              <td>@item.Color</td>
+                              <td>@item.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</td>
+                            </tr>          
+                          }
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <!-- accepted payments column -->
+                @if(Model.oderHeader.PaymentIntenId == "1"){
+                         
+                      }else if(Model.oderHeader.PaymentIntenId == "2"){
+                          <div class="col-6">
+                            <p class="lead">Phương thức thanh toán:</p>
+                            <img src="../../dist/img/credit/visa.png" alt="Visa">
+                            <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
+                            <img src="../../dist/img/credit/american-express.png" alt="American Express">
+                            <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
+                            </div>
+                          <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                              Thanh toán bằng VNPay
+                           </p>
+                      }else{
+                          <div class="col-6">
+                            <span class="lead">Phương thức thanh toán: </span>
+                            <span style="color:#FFD333">Thanh toán khi nhận hàng</span>
+                            </div>
+                      }
+                
+                <!-- /.col -->
+                <div class="col-6">
+                  <p class="lead">Ngày đặt hàng @Model.oderHeader.OderDate</p>
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody><tr>
+                        <th style="width:50%">Số tiền:</th>
+                        <td>@Model.oderDetails.Sum(i => i.Price * i.Count).ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</td>
+                      </tr>
+                      <tr>
+                        <th>Phí vận chuyển:</th>
+                        <td>@(10000.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN")))</td>
+                      </tr>
+                      <tr>
+                        <th>Tổng tiền:</th>
+                        <td>@Model.oderHeader.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</td>
+                      </tr>
+                    </tbody></table>
+                  </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.invoice -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>

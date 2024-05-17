@@ -1,0 +1,204 @@
+﻿@model X.PagedList.IPagedList<BanDoWeb.Model.Models.Product>
+@using System.Globalization
+@using X.PagedList.Mvc.Core 
+@using X.PagedList.Web.Common
+@{
+
+}
+
+    <!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <a class="breadcrumb-item text-dark" href="#">Shop</a>
+                    <span class="breadcrumb-item active">Shop</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+<div class="container-fluid">
+        <div class="row px-xl-5">
+     
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-4">
+                 <!-- Category Start -->
+                <h5 class="section-title position-relative text-uppercase mb-3"><span style="background-color:#FFD333" class="font-weight-normal pr-3">Lọc theo loại</span></h5>
+                <div class="bg-light p-4 mb-30">
+                    <form id="Categori">
+                         <!-- Navbar Start -->
+                         <div class="custom-control d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Categori" class="custom-control-input" checked="" value="0" id="categori-all">
+                            <label class="custom-control-label font-weight-normal" for="categori-all">Tất cả loại</label>
+                        </div>
+                            @await Component.InvokeAsync("Categori")
+                         <!-- Navbar End -->
+                    </form>
+                </div>
+                <!-- Category End -->
+                <!-- Price Start -->
+                <h5 class="section-title position-relative text-uppercase mb-3"><span style="background-color:#FFD333" class="font-weight-normal pr-3">Lọc theo giá</span></h5>
+                <div class="bg-light p-4 mb-30">
+                    <form id="Price">
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Price" class="custom-control-input" checked="" value="1000" id="price-all">
+                            <label class="custom-control-label font-weight-normal" for="price-all">Tất cả</label>
+                            <span class="badge border font-weight-normal">100.000.000</span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Price" class="custom-control-input" id="price-1" value="0- 99999">
+                            <label class="custom-control-label font-weight-normal" for="price-1">0 đ - 99.999 đ</label>
+                            <span class="badge border font-weight-normal">100.000</span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Price" class="custom-control-input" id="price-2" value="100000-199999">
+                            <label class="custom-control-label font-weight-normal" for="price-2">100.000 đ - 199.999 </label>
+                            <span class="badge border font-weight-normal">200.000</span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Price" class="custom-control-input" id="price-3" value="200000-299999">
+                            <label class="custom-control-label font-weight-normal" for="price-3">200.000 đ - 299.999 đ</label>
+                            <span class="badge border font-weight-normal">300.000</span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Price" class="custom-control-input" id="price-4" value="300000-400000">
+                            <label class="custom-control-label font-weight-normal" for="price-4">300.000 đ - 399.999 đ</label>
+                            <span class="badge border font-weight-normal">400.000</span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between">
+                            <input type="radio" name="Price" class="custom-control-input" id="price-5" value="400000-500000">
+                            <label class="custom-control-label font-weight-normal" for="price-5">400.000 đ - 499.999 đ</label>
+                            <span class="badge border font-weight-normal">500.000</span>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->
+                
+                <!-- Color Start -->
+                <h5 class="section-title position-relative text-uppercase mb-3"><span style="background-color:#FFD333" class="font-weight-normal pr-3">Lọc theo màu</span></h5>
+                <div class="bg-light p-4 mb-30">
+                    <form id="Color">
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Color" class="custom-control-input" id="color-1" value="Black">
+                            <label class="custom-control-label font-weight-normal" for="color-1">Đen</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Color" class="custom-control-input" id="color-2" value="White">
+                            <label class="custom-control-label font-weight-normal" for="color-2">Trắng</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Color" class="custom-control-input" id="color-3" value="Red">
+                            <label class="custom-control-label font-weight-normal" for="color-3">Đỏ</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Color" class="custom-control-input" id="color-4" value="Blue">
+                            <label class="custom-control-label font-weight-normal" for="color-4">Xanh dương</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between">
+                            <input type="radio" name="Color" class="custom-control-input" id="color-5" value="Green">
+                            <label class="custom-control-label font-weight-normal" for="color-5">Xanh</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                    </form>
+                </div>
+                <!-- Color End -->
+
+                <!-- Size Start -->
+                <h5 class="section-title position-relative text-uppercase mb-3"><span style="background-color:#FFD333" class="font-weight-normal pr-3">Lọc theo kích thước</span></h5>
+                <div class="bg-light p-4 mb-30">
+                    <form id="Size">
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Size" class="custom-control-input" id="size-1" value="XS">
+                            <label class="custom-control-label font-weight-normal" for="size-1">XS</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Size" class="custom-control-input" id="size-2" value="S">
+                            <label class="custom-control-label font-weight-normal" for="size-2">S</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Size" class="custom-control-input" id="size-3" value="M">
+                            <label class="custom-control-label font-weight-normal" for="size-3">M</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" name="Size" class="custom-control-input" id="size-4" value="L">
+                            <label class="custom-control-label font-weight-normal" for="size-4">L</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                        <div class="custom-control  d-flex align-items-center justify-content-between">
+                            <input type="radio" name="Size" class="custom-control-input" id="size-5" value="XL">
+                            <label class="custom-control-label font-weight-normal" for="size-5">XL</label>
+                            <span class="badge border font-weight-normal"></span>
+                        </div>
+                    </form>
+                </div>
+                <button class="btn btn-primary" type="button" id="btnChecked">Lọc tìm kiếm</button>
+                <!-- Size End -->
+            </div>
+            <!-- Shop Sidebar End -->
+
+
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-8">
+                <div class="col-12 pb-1">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <div>
+                                <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
+                                <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row" id="showProduct">
+                <!-- Shop Product Start -->
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        <div class="product-item bg-light">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="~/Content/assets/img/Product/@item.ImageUrl" alt="title">
+                                <div class="product-action">
+                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" asp-action="Index" asp-controller="Detail" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center py-4">
+                                <a class="h6 text-decoration-none font-weight-normal" asp-action="Index" asp-controller="Detail" asp-route-id="@item.Id">@item.Title</a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    @{
+                                        <h5 class="font-weight-normal" style="color:red" >@item.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h5>
+                                    }
+                                    <h6 class="text-muted ml-2" font-weight-normal><del>@item.PriceTotal</del></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                </div>
+                    <div class="col-12">
+                        <nav>
+                          <ul class="pagination justify-content-center">
+                            @Html.PagedListPager(Model, page => Url.Action("Index","Shop",new {page = page}),
+                                new PagedListRenderOptions
+                                {
+                                     LiElementClasses = new string[] { "page-item"},
+                                     PageClasses = new string[] {"page-link"}
+                                } 
+                            )
+                          </ul>
+                        </nav>
+                    </div>
+                </div>
+        </div>
+</div>
+@section Scripts{
+    <script src="/Content/assets/js/checked.js"></script>
+}

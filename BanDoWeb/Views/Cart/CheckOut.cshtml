@@ -1,0 +1,174 @@
+﻿@using System.Globalization
+@model BanDoWeb.Model.Models.ShoppingCartVM
+@{
+    var sumTotal = Model.CartTotal + 10000;
+}
+    <!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+<div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" asp-area="" asp-controller="home" asp-action="index">Trang chủ</a>
+                    <a class="breadcrumb-item text-dark" asp-area="" asp-controller="cart" asp-action="showcart">Giỏ hàng</a>
+                    <span class="breadcrumb-item active">Thanh toán</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <form method="post" >
+     <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Billing Address</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Tên</label>
+                            <input asp-for="OrderHeader.FirstName" class="form-control font-weight-normal" type="text" placeholder="Nhập tên">
+                            <span asp-validation-for="OrderHeader.FirstName" class="text-danger font-weight-normal"></span>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Họ</label>
+                            <input asp-for="OrderHeader.LastName" class="form-control font-weight-normal" type="text" placeholder="Nhập họ">
+                            <span asp-validation-for="OrderHeader.LastName" class="text-danger font-weight-normal"></span>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">E-mail</label>
+                            <input asp-for="OrderHeader.Email" class="form-control font-weight-normal" type="text" placeholder="example@email.com">
+                            <span asp-validation-for="OrderHeader.Email" class="text-danger font-weight-normal"></span>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Số điện thoại</label>
+                            <input asp-for="OrderHeader.PhoneNumber" class="form-control font-weight-normal" type="text" placeholder="Nhập số điện thoại">
+                            <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger font-weight-normal"></span>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Địa chỉ 1</label>
+                            <input asp-for="OrderHeader.StreetAddress" class="form-control font-weight-normal" type="text" placeholder="Nhập địa chỉ 1">
+                            <span asp-validation-for="OrderHeader.StreetAddress" class="text-danger font-weight-normal"></span>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Thành phố</label>
+                            <input asp-for="OrderHeader.City" class="form-control font-weight-normal" type="text" placeholder="Nhập thành phố">
+                            <span asp-validation-for="OrderHeader.City" class="text-danger font-weight-normal"></span>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">Tình trạng</label>
+                            <input asp-for="OrderHeader.State"  class="form-control font-weight-normal" type="text" placeholder="Nhập tình trạng">
+                            <span asp-validation-for="OrderHeader.State" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="font-weight-normal">ZIP Mã</label>
+                            <input asp-for="OrderHeader.PostalCode" class="form-control font-weight-normal" type="text" placeholder="Nhập mã zip nếu có">
+                            <span asp-validation-for="OrderHeader.PostalCode" class="text-danger font-weight-normal"></span>
+
+                        </div>
+                    </div>
+                    </div>
+            </div>
+
+            <div class="col-lg-4">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Tổng số đơn hàng</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="border-bottom">
+                        <h6 class="mb-3">Tất cả sản phẩm</h6>
+                        @foreach(var item in Model.LstshoppingCarts){
+                            <div class="d-flex justify-content-between">
+                                <p style="width:400px">@item.Product.Title</p>
+                                <p>@item.Product.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN")) x @item.Count</p>
+                            </div>
+                        }
+                                            
+                    </div>
+                    <div class="border-bottom pt-3 pb-2">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h6>Tổng phụ</h6>
+                            <h6>@Model.CartTotal.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Tiền vận chuyển</h6>
+                            <h6 class="font-weight-medium">@(10000.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN")))</h6>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Tổng tiền</h5>
+                            <h5>@sumTotal.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span></h5>
+                    <div class="bg-light p-30">
+                        @if(ViewBag.error != null){
+                            <div class="form-group">
+                                <label style="color:red">
+                                    Phương thức thanh toán
+                                </label>
+                        </div>
+                        }
+                        
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" value="1" id="paypal">
+                                <label class="custom-control-label font-weight-normal" for="paypal">Paypal</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" value="2" id="directcheck">
+                                <label class="custom-control-label font-weight-normal" for="directcheck">Bank VNPay</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="payment" value="3" id="banktransfer">
+                                <label class="custom-control-label font-weight-normal" for="banktransfer">Thanh toán khi nhận hàng</label>
+                            </div>
+                        </div>
+                        
+                        @if(Model.LstshoppingCarts.Count() > 0){
+                            <button type="submit" class="btn btn-block btn-primary font-weight-bold py-3"  id="oderSuccess" onclick="oder()">Thanh toán</button>
+                        }
+                        else{
+                            <button type="button" class="btn btn-block btn-primary font-weight-normal py-3" onclick="alertCheckOut()">Thanh toán</button>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </form>
+@section Scripts{
+    <script>
+    function alertCheckOut() {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+    }
+function oder() {
+    var id = $('#id').val()
+    $.ajax({
+        url:"~/cart/OrderComfrim",
+        data: id,
+        method: "POST",
+        success: function(res) {
+            alert("okeee")
+        }
+    })
+}
+    </script>
+}

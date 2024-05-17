@@ -1,0 +1,111 @@
+﻿@using System.Globalization
+@model BanDoWeb.Model.Models.Categoriess
+@{
+}
+<div class="new_arrivals">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title new_arrivals_title">
+						<h2>Sản Phẩm Đang Được Giảm Giá</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col text-center">
+					<div class="new_arrivals_sorting">
+						<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center is-checked active" data-filter="*">Tất cả</li>
+							@foreach(var item in Model.Categorias){
+								<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".@item.Id">@item.NameCategori</li>
+							}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="products_iso">
+						<div class="row">
+							<div class="col">
+								<div class="product-grid" data-isotope="{ &quot;itemSelector&quot;: &quot;.product-item&quot;, &quot;layoutMode&quot;: &quot;fitRows&quot; }" style="position: relative; height: 1140px;">
+									@foreach(var item in Model.Products){
+									<div class="product-item @item.Categories.Id" style="position: absolute; left: 0px; top: 0px;">
+										<div class="product discount product_filter" style="border-right: 1px solid rgb(233, 233, 233);">
+											
+											<div class="product_image">
+												<img src="~/Content/assets/img/Product/@item.ImageUrl" alt="">
+											</div>
+											<div class="favorite favorite_left"></div>
+											<div class="product-action">
+												<a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+												<a class="btn btn-outline-dark btn-square" asp-action="Index" asp-controller="Detail" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
+											</div>
+											<div class="text-center" style="width: 500px; margin: auto;">
+												<a class="h6 font-weight-normal"  asp-action="Index" asp-controller="Detail" asp-route-id="@item.Id">@item.Title</a>
+												<div class="">
+													@{
+														<h5 class="font-weight-normal" style="color:red">@item.Price.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</h5><span><del> @item.PriceTotal</del></span> 
+													}
+												</div>
+											</div>
+										</div>
+										
+									</div>
+									}
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+	</div>
+
+	<div class="blogs">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_title">
+						<h2>Blog mới nhất</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row blogs_container">
+				<div class="col-lg-4 blog_item_col">
+					<div class="blog_item">
+						<div class="blog_background">
+							<img src="~/Assets/images/blog_1.jpg"></img>
+						</div>
+						<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+							<h4 class="blog_title">Love, Taza</h4>
+							<span class="blog_meta">by admin | dec 11, 2023</span>
+							<a class="blog_more" href="#">Đọc</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 blog_item_col">
+					<div class="blog_item">
+						<div class="blog_background">
+							<img src="~/Assets/images/blog_2.jpg"></img>
+							</div>
+						<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+							<h4 class="blog_title">Con người của New York</h4>
+							<span class="blog_meta">by admin | dec 11, 2023</span>
+							<a class="blog_more" href="#">Đọc</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 blog_item_col">
+					<div class="blog_item">
+						<div class="blog_background">
+							<img src="~/Assets/images/blog_3.jpg"></img>
+						</div>
+						<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+							<h4 class="blog_title">Một cuộc sống hạnh phúc lớn lao</h4>
+							<span class="blog_meta">by admin | dec 11, 2023</span>
+							<a class="blog_more" href="#">Đọc</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+

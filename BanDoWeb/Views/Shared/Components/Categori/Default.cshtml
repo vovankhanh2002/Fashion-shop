@@ -1,0 +1,11 @@
+﻿@model IEnumerable<BanDoWeb.Model.Models.Categories>
+@{
+}
+
+@foreach(var item in Model)
+{
+       <div class="custom-control custom d-flex align-items-center justify-content-between mb-3">
+            <input type="radio" name="Categori" class="custom-control-input" value="@item.Id" id="categori-@item.Id">
+            <label class="custom-control-label font-weight-normal" for="categori-@item.Id">@item.NameCategori</label>
+        </div>
+}

@@ -1,0 +1,767 @@
+﻿@model X.PagedList.IPagedList<BanDoWeb.Model.Models.OderDetail>
+@using System.Globalization
+@using X.PagedList.Mvc.Core 
+@using X.PagedList.Web.Common
+@{
+    var products = ViewBag.product;
+    var i = 0;
+    var p = 0;
+    var a = 0;
+    var s = 0;
+    var Success = 0;
+    var c = 0;
+}
+<!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" asp-area="" asp-controller="home" asp-action="index">Trang chủ</a>
+                    <span class="breadcrumb-item active">Đơn đặt hàng</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="group-tabs">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs row mb-2" role="tablist">
+                    <li role="presentation" class="active nav-item col-md-2"><a href="#All" class="nav-link " id="btnAll" aria-controls="home" role="tab" data-toggle="tab">Tất cả</a></li>
+                    <li role="presentation" class="nav-item col-md-2"><a class="nav-link" href="#Pending" id="btnPending" aria-controls="profile" role="tab" data-toggle="tab">Chờ xác nhận</a></li>
+                    <li role="presentation" class="nav-item col-md-2"><a class="nav-link" href="#Approved" id="btnApproved" aria-controls="messages" role="tab" data-toggle="tab">Đã lấy hàng</a></li>
+                    <li role="presentation" class="nav-item col-md-2"><a class="nav-link " href="#Shipped" id="btnShipped" aria-controls="settings" role="tab" data-toggle="tab">Đang giao hàng</a></li>
+                    <li role="presentation" class="nav-item col-md-2"><a class="nav-link " href="#Success" id="btnSuccess" aria-controls="settings" role="tab" data-toggle="tab">Đã giao</a></li>
+                    <li role="presentation" class="nav-item col-md-2"><a class="nav-link " href="#Cancelled" id="btnCancelled" aria-controls="settings" role="tab" data-toggle="tab">Đã hủy</a></li>
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="All">
+                        @foreach(var item in Model)
+                            {
+                                @if(i != item.OderHeaderId)
+                                {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kích thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-3 " style="margin-left:auto">
+                                                    <span ><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p style="text-align:end"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ cửa hàng
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    i = item.OderHeaderId;
+                                }
+                                
+                            }
+                        </div>
+                    <div role="tabpanel" class="tab-pane" id="Pending">
+                        @foreach(var item in Model)
+                            {
+                                @if(p != item.OderHeaderId)
+                                {
+                                    if (item.OderHeaders.OderStatus == "Pending")
+                                    {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kichs thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-3 " style="margin-left:auto">
+                                                    <span><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p class="text-end" style="margin-left:auto"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ người bán
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    p = item.OderHeaderId;
+                                    }
+                                    
+                                }
+                                
+                            }
+                        </div>
+                    <div role="tabpanel" class="tab-pane" id="Approved">
+                        @foreach(var item in Model)
+                            {
+                                @if(a != item.OderHeaderId)
+                                {
+                                    if (item.OderHeaders.OderStatus == "Approved")
+                                    {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kích thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-4 " style="margin-left:auto">
+                                                    <span><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p class="text-end" style="margin-left:auto"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ người bán
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    a = item.OderHeaderId;
+                                    }
+                                    
+                                }
+                                
+                            }
+                        </div>
+                    <div role="tabpanel" class="tab-pane" id="Shipped">
+                        @foreach(var item in Model)
+                            {
+                                @if(s != item.OderHeaderId)
+                                {
+                                    if (item.OderHeaders.OderStatus == "Shipped")
+                                    {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kích thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-4 " style="margin-left:auto">
+                                                    <span><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p class="text-end" style="margin-left:auto"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ người bán
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    s = item.OderHeaderId;
+                                    }
+                                    
+                                }
+                                
+                            }
+                        </div>
+                    <div role="tabpanel" class="tab-pane" id="Success">
+                        @foreach(var item in Model)
+                            {
+                                @if(Success != item.OderHeaderId)
+                                {
+                                    if (item.OderHeaders.OderStatus == "Success")
+                                    {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kích thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-4 " style="margin-left:auto">
+                                                    <span><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p class="text-end" style="margin-left:auto"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ người bán
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    Success = item.OderHeaderId;
+                                    }
+                                    
+                                }
+                                
+                            }
+                        </div>
+                    <div role="tabpanel" class="tab-pane" id="Cancelled">
+                        @foreach(var item in Model)
+                            {
+                                @if(c != item.OderHeaderId)
+                                {
+                                    if (item.OderHeaders.OderStatus == "Cancelled")
+                                    {
+                                    <div class="card" style="margin-bottom:5px">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 style="line-height: 1.2;"><i class="fa-brands fa-codepen"></i><b>@item.OderHeaders.Id</b></h5>
+                                            </div>
+                                            <div class="col-md-4" style="margin-left:auto">
+                                                <div>@if(item.OderHeaders.OderStatus == "Pending")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Chờ xác nhận </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Approved")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><span style="color:red"> Đã lấy hàng </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Shipped")
+                                                    {
+                                                        
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span> Đơn hàng đang đang được giao đến bạn </span><br><span style="color:red"> Đang giao hàng </span><i class="fa-solid fa-circle-question"></i></div>
+                                                    }else if(item.OderHeaders.OderStatus == "Processing")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><p style="color:red"> Chuẩn bị gửi hàng </p>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                    else if(item.OderHeaders.OderStatus == "Success")
+                                                    {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã giao </span>  <i class="fa-solid fa-circle-question"></i></div>
+                                                    }else {
+                                                        <div style="line-height: 1.2;" ><i class="fa-solid fa-car-side"></i><span style="color:red"> Đã hủy đơn hàng </span>   <i class="fa-solid fa-circle-question"></i></div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="col-md-4">
+                                                    <div>
+                                                        <img style="width:300px" src="/Content/assets/img/Product/@item.Product.ImageUrl"></img>
+                                                        <span><b>@item.Tittle</b></span>
+                                                    </div>
+                                                    <span>Số lượng:@item.Count</span>
+                                                    <br>
+                                                    <span>Kích thước:@item.Size</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 d-inline-flex p-3" >
+                                                <div class="col-lg-4 " style="margin-left:auto">
+                                                    <span><i class="fa-solid fa-dollar-sign"></i>@item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-inline-flex p-3" >
+                                                <div class="col-lg-12 " style="margin-left:auto">
+                                                     <p class="text-end" style="margin-left:auto"><i class="fa-solid fa-dollar-sign"></i>Tổng số tiền: @item.OderHeaders.OderTotal?.ToString("C", CultureInfo.CreateSpecificCulture("vi-VN"))</p>
+                                                </div>
+                                            </div>
+                                        
+                                         <div class="row" style="margin-top:15px">
+                                            <div class="col-md-4">
+                                                <span>Sản phẩm này sẽ được gửi đi trước</span>
+                                                <br>
+                                                <span style="color:#FFD333">@item.OderHeaders.OderDate.Value.AddDays(2)</span>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <button type="button" class="btn btn-block " style="background-color:#FFD333;margin-top:5px,color:white">
+                                                   Liên hệ người bán
+                                               </button>
+                                            </div>
+                                            <div class="col-md-3" >
+                                               <a asp-controller="cart" asp-action="DetailOrder" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Xem chi tiết đơn hàng
+                                               </a>
+                                            </div>
+                                            <div class="col-md-2" >
+                                               <a asp-action="Cancelled" asp-controller="Cart" asp-route-id="@item.OderHeaderId" class="btn btn-block " style="background-color:#ededed;margin-top:5px">
+                                                   Hủy đơn
+                                               </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    c = item.OderHeaderId;
+                                    }
+                                    
+                                }
+                                
+                            }
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" style="margin-top:20px">
+               <nav>
+                 <ul class="pagination justify-content-center">
+                   @Html.PagedListPager(Model, page => Url.Action("PurchaseOrder","Cart",new {page = page}),
+                       new PagedListRenderOptions
+                       {
+                            LiElementClasses = new string[] { "page-item"},
+                            PageClasses = new string[] {"page-link"}
+                       } 
+                   )
+                 </ul>
+               </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*<style>
+    body{
+background:#eee;
+}
+.panel-order .row {
+	border-bottom: 1px solid #ccc;
+}
+.panel-order .row:last-child {
+	border: 0px;
+}
+.panel-order .row .col-md-1  {
+	text-align: center;
+	padding-top: 15px;
+}
+.panel-order .row .col-md-1 img {
+	width: 50px;
+	max-height: 50px;
+}
+.panel-order .row .row {
+	border-bottom: 0;
+}
+.panel-order .row .col-md-11 {
+	border-left: 1px solid #ccc;
+}
+.panel-order .row .row .col-md-12 {
+	padding-top: 7px;
+	padding-bottom: 7px; 
+}
+.panel-order .row .row .col-md-12:last-child {
+	font-size: 11px; 
+	color: #555;  
+	background: #efefef;
+}
+.panel-order .btn-group {
+	margin: 0px;
+	padding: 0px;
+}
+.panel-order .panel-body {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.panel-order .panel-deading {
+	margin-bottom: 0;
+}    
+</style>
+ <!-- Navbar Start -->
+    @await Component.InvokeAsync("NavbarC")
+    <!-- Navbar End -->
+<div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <span class="breadcrumb-item active">Purchase order</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+ <div class="container bootdey">
+     <div class="mb-6">
+         <h3 class="mb-0" style="font-weight: 700">Recent purchase</h3>
+         <p><i class="fa-solid fa-circle-info"></i> This is a list of orders you have purchased since that date <b>@Model.First().OderDate</b> to <b>@Model.Last().OderDate</b></p>
+     </div>
+    <div class="panel panel-default panel-order">
+        <div class="panel-heading">
+            <strong>Order history</strong>
+            <div class="btn-group pull-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Filter history <i class="fa fa-filter"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#">Approved orders</a></li>
+                        <li><a href="#">Pending orders</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            @foreach(var item in Model)
+            {
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    @if(item.OderStatus == "Pending")
+                                    {
+                                        <label class="label label-info" style="color:#5bc0de">@item.OderStatus</label>
+                                    }else if(item.OderStatus == "Approved")
+                                    {
+                                        <label class="label label-info" style="color:#5cb85c">@item.OderStatus</label>
+                                    }else if(item.OderStatus == "Processing")
+                                    {
+                                        <label class="label label-info" style="color:goldenrod">@item.OderStatus</label>
+                                    }else if(item.OderStatus == "Shipped")
+                                    {
+                                        <label class="label label-info" style="color:#FFD333 ">@item.OderStatus</label>
+                                    }
+
+                                </div>
+                                <span style="margin-bottom:25px"><strong>Order:@item.Id</strong></span><br />
+                                Cost: $@item.OderTotal <br />
+                                
+                                <a data-placement="top" class="btn" asp-action="DetailOrder" asp-controller="Cart" asp-route-id="@item.Id" title="View"><i class="fa-solid fa-eye" style="color:green"></i></a>
+                                <a data-placement="top" class="btn" href="#" title="Danger"><i class="fa-solid fa-trash"style="color:red"></i></a>
+                                <a data-placement="top" class="btn" href="#" title="Danger"></a>
+                            </div>
+                            <div class="col-md-12">Order made on: @item.OderDate by <a href="#">@item.LastName</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-12" style="margin-top:20px">
+               <nav>
+                 <ul class="pagination justify-content-center">
+                   @Html.PagedListPager(Model, page => Url.Action("PurchaseOrder","Cart",new {page = page}),
+                       new PagedListRenderOptions
+                       {
+                            LiElementClasses = new string[] { "page-item"},
+                            PageClasses = new string[] {"page-link"}
+                       } 
+                   )
+                 </ul>
+               </nav>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+
+
+
+
+

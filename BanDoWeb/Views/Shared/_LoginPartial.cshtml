@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+  <div class="btn-group">
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+        <a id="manage" asp-area="Identity" asp-page="/Account/Manager/Index" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown" title="Manage">@UserManager.GetUserName(User)</a>
+          <div class="dropdown-menu dropdown-menu-right">
+              
+              <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index","Home",new{area=""})">
+                  <button id="manage" class="dropdown-item" asp-area="Identity" style="border:none" asp-page="/Account/Manage/Index">Tài khoản của tôi</button>
+                  <button id="manage" class="dropdown-item" asp-area="" asp-controller="Cart" asp-action="PurchaseOrder" style="border:none" >Đơn mua</button>
+                  <button id="logout" class="dropdown-item" style="border:none">Đăng xuất</button>
+               </form>
+        </div>
+    }
+    else
+    {
+        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Tài khoản</button>
+            <div class="dropdown-menu dropdown-menu-right">
+                 <a class="dropdown-item" id="register" style="border:none" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+                 <a class="dropdown-item" id="register" style="border:none" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+            </div>
+    }
+</div>
+    
